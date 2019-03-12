@@ -1,0 +1,214 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,amsthm,amsfonts,amssymb,epsfig,amsmath,times,amsthm}
+
+\title{Turing Machines and the Halting Problem}
+
+\author{Alexander Lue, UCSC}
+
+\date{13 March 2019}
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	In this paper, we will discuss the basics of Turing machines, and some examples of the use of this computational model. Along the way, we will discuss the implications of these machines and how they show an important question posed in mathematics: is all mathematics is decidable? We will then derive how this affects implications in mathematics and our day to day life.
+\end{abstract}
+
+
+
+\section{Introduction}
+
+The way we perceive computers is vastly different from what we had perceived almost 70 years ago. From the US made Electronic Numerical Integrator and Calculator (ENIC), to the modern-day laptop, the fundamental logic that computers run on is largely preserved. But how exactly could we compare these two, and why would these machines be related? Is there a way to interpret the computability of these technologies in a definitive way? Surprisingly, there is, and it was developed by mathematician and computer scientist Alan Turing in 1936 in his paper \textit{On Computable Numbers, with an Application to the Entscheidungsproblem}. In this paper, Turing devises an abstract "computing machine" that we now refer to as a Turing Machine.
+
+While simplistic and straightforward, the Turing machine has proved to be one of the most important machines devised in early computer science. These abstract machines give means to describe computability of various problems posed before and after its inception that relate to mathematics and computer science in our everyday lives.
+
+
+
+\section{Computational Models and Automata Theory}
+
+Before we dive head first into Turing machines, we need to explain what computational models are. Computational Models are, at its core, models that describe how a set of outputs can be produced from given inputs with defined rules and function. 
+
+There are multiple classes of computational models, and all of which are encompassed in automata theory, the study of such machines. Specifically, automata theory delves into the computational logic that defines abstract machines. There are three main classes of models: finite state machines, pushdown automata, and Turing machines, where each is a subclass of the succeeding class. 
+
+But what does it mean when one automata is a subclass of the other? Let's consider finite state machines and pushdown automata. Any finite state machine can also be defined with a pushdown automata. This also means that any grammar, and by extension the language it produces, that can be constructed from a finite state machine, can also be defined with a pushdown automata. For example, finite state machines can only represent regular grammars, whereas pushdown automata can represent any context-free grammar, a superset of regular grammar. 
+
+Now with the general understanding of computational models and automata theory, we can now move onto Turing machines.
+
+
+\section{Turing Machines}
+
+As stated previously, Turing machines were developed by Alan Turing in 1936. They represent the largest class of automata in automata theory, and all computational models are encapsulated in the class of Turing machine.
+
+\subsection{Functionality and Design}
+ A Turing machine is comprised of two components, a head pointer and an "infinite" tape reel with cells containing symbols. The machine works as such: 
+\begin{enumerate}
+
+\item The head scans the symbol from the tape reel.
+\item From the symbol read, the head will change its current state.
+\item Head will then move one cell over to the Left or Right on the tape reel.
+\item Head may overwrite the previous cell's symbol to a new symbol.
+\item Repeat 1 - 4 until an end state has been reached.
+
+\end{enumerate}
+
+\noindent With this functionality in mind, we can formally define a Turing machine, $M$, as a $7-$tuple $M=(Q,\Sigma, \Gamma, \delta, q_0, B, F)$, where
+
+
+\begin{itemize}
+
+\item $Q$ is a finite set of states
+\item $\Gamma$ is a finite set of tape symbols, the "alphabet"
+\item $B \in \Gamma$ is the blank space symbol
+\item $\Sigma \subseteq \Gamma$, where $B$ is not included, represents the "input symbols"
+\item $\delta : Q \times \Gamma \to Q \times \Gamma \times \{L,R\}$, is a partial function also known as the transition function
+\item $q_0 \in Q$ is the start state
+\item $F \subseteq Q$ is set of final states
+
+\end{itemize}
+
+We can relate the movement of the Turing Machine described in the procedure above as our $\delta$ function. $\delta$ is a partial function, and may therefore have inputs such that there will not be output. When this occurs, the machine will treat that as a termination and stop the machine from running. However, given an input into a program, this will not guarantee a termination and output to the program.
+
+\subsection{Examples of Turing Machines}
+
+Let's now go over a couple ways we can use Turing Machines to compute or determine outputs for a program. These simple examples should be able to describe the general use and functionality of these machines.
+\subsubsection*{Language Acceptance}
+
+Say we want to design a Turing Machine that can accept words in the language $L = \{0^n1^n \mid n \geq 1 \}$. We can create a Turing Machine that takes in a tape with the target word followed by blank spaces. The machine will first change the $0$ into a $X$. The machine will then move to the right and change the first $1$ it scans to a $Y$. The machine then moves left until it reaches the right of the $X$, and repeats the movement until the machine reads a blank space at the end and accepts the word. If there are more $0$s than $1$s, then when the machine scans for another $1$, it will reach a blank space first and not accept. Conversely, if there are more $1$s than $0$s, the last $0$ will be read and will find another $1$ before finding a blank, and such, will not accept the word.
+
+We can define the Turing Machine as $M=(Q,\Sigma, \Gamma, \delta, q_0, B, \{q_4\})$ where $Q = \{q_0, q_1, q_2, q_3, q_4 \}$, $\Sigma = \{0,1\}$, and $\Gamma = \{0,1,X,Y,B\}$. We will also represent $\delta$ as transition table:
+
+\begin{center}
+Symbol
+
+State
+\begin{tabular}{ l | l   l   l   l   l }
+
+$\delta$	& 0				& 1				& X				& Y				& B			\\ \hline
+$q_0$ 	& $(q_1,X,R)$		& -				& -				& $(q_3,Y,R)$		& -			\\ 
+$q_1$	& $(q_1,0,R)$		& $(q_2,Y,L)$		& -				& $(q_1,Y,R)$		& -			\\
+$q_2$	& $(q_2,0,L)$		& -				&$ (q_0,X,R) $		& $(q_2,Y,L)$		& -			\\
+$q_3$	& -				& -				& -				& $(q_3,Y,R)$		& $(q_4,B,R) $	\\
+$q_4$	& -				& -				& -				& -				& -			\\ 
+    
+\end{tabular}
+\end{center}
+
+And so, we can see that when the machine is run on the input $0011$ we reach the final state $q_4$:
+
+\begin{tabular}{l l l l l l l l}
+
+$q_00011$	& $\to$	& $Xq_1011$		&$\to$	& $X0q_111$		& $\to$	& $Xq_20Y1$		&$\to$	\\
+$q_2X0Y1$	& $\to$	& $Xq_00Y1$		&$\to$	& $XXq_1Y1$		& $\to$	& $ XXYq_11$		&$\to$	\\
+$XXq_2YY$	& $\to$	& $Xq_2XYY$		&$\to$	& $XXq_0YY$		& $\to$	& $ XXYq_3Y$		&$\to$	\\
+$XXYYq_3B$	& $\to$	& $XXYYBq_4$	&		&				&		&				&		\\
+
+    
+\end{tabular}
+
+\noindent Notice that no matter what other input we put into the machine that is not in the language (i.e. $1001$, $11111$, or $00$), $\delta$ is not defined to transition to a state. Therefore, when these inputs are put into the machine, it will terminate execution without accepting the word into the language.
+
+\subsubsection*{Computational Machine}
+
+We can also use Turing Machines to conduct computations. Let's consider a simple type of computation, \textit{proper subtraction} \footnote{Turing Machines can theoretically work with normal subtraction as well, but for simplicity's sake, we want to use highlight this computation because it requires less state management.}. Proper subtraction between two non-negative integers $m$ and $n$ is the function:
+
+\[ \begin{cases} 
+      m-n & m\geq n \\
+      0 & m<n
+   \end{cases}
+\]
+
+So we can create a Turing Machine as follows. The input tape will contain the string $0^m10^n$, so there will be $m$ number of zeroes before the $1$ and $n$ number of zeroes after. The Turing Machine will start at the beginning of the tape and change the zero to a blank space, and then search for the first $0$ after the $1$ and change $0 \to 1$. The machine will then traverse back to the beginning and repeat the procedure until either occur:
+
+\begin{enumerate}
+
+\item \textbf{There are no more 0s right of the 1.} If this is the case, then the machine will backtrack and change all the $1$s to blanks and then leaves the remaining $0$s as the return difference. 
+\item \textbf{There are no more 0s left of the 1.} If this is the case and there are still $0$s to the right, then the machine will recognize this and change all values to blank spaces.
+
+\end {enumerate}
+
+We can model this with the Turing Machine as $M=(Q,\Sigma, \Gamma, \delta, q_0, B, \varnothing)$\footnote{Notice that because we are doing a computation and not a regex like the last example, there are no accept states because when the machine halts, we know that whatever is left on the tape afterwards is our solution.}, where $Q = \{q_0, q_1, q_2, q_3, q_4, q_5, q_6 \}$, $\Sigma = \{0,1\}$, and $\Gamma = \{0,1,B\}$. We will also define $\delta$ like so:
+
+\begin{center}
+Symbol
+
+State
+\begin{tabular}{ l  |  l l l }
+
+$\delta$	& 0				& 1				& B			\\ \hline
+$q_0$ 	& $(q_1,B,R)$		& $(q_5,B,R)$		& -			\\ 
+$q_1$	& $(q_1,0,R)$		& $(q_2,1,R)$		& -			\\
+$q_2$	& $(q_3,1,L)$		& $(q_2,1,R)$		& $(q_4,B,L) $	\\
+$q_3$	& $(q_3,0,L)$		& $(q_3,1,L)$		& $(q_0,B,R) $	\\
+$q_4$	& $(q_4,0,L)$		& $(q_4,B,L)$		& $(q_6,0,R) $	\\ 
+$q_5$	& $(q_5,B,R)$		& $(q_5,B,R)$		& $(q_6,B,R) $	\\
+$q_6$	& -				& -				& -			\\ 
+    
+\end{tabular}
+\end{center}
+
+Let's now work with two examples, $0010$ and $0100$. For $0010$, the $M$ will function in this order:
+
+\begin{tabular}{l l l l l l l l}
+
+$q_00010$	& $\to$	& $Bq_1010$		& $\to$	& $B0q_110$		& $\to$	& $B01q_20$		&$\to$	\\
+$B0q_311$	& $\to$	& $Bq_3011$		& $\to$	& $q_3B011$		& $\to$	& $Bq_0011$		&$\to$	\\
+$BBq_111$	& $\to$	& $BB1q_21$		& $\to$	& $BB11q_2$		& $\to$	& $BB1q_41$		&$\to$	\\
+$BBq_41$		& $\to$	& $Bq_4B$		& $\to$	& $B0q_6B$		& $\to$	& $B0q_6$		&		\\
+
+    
+\end{tabular}
+
+After the process is finished, only one $0$ remains, which means the \textit{proper difference} of $2$ and $1$ is $1$. What if we now run this on $0100$?
+
+\begin{tabular}{l l l l l l l l}
+
+$q_00100$	& $\to$	& $Bq_100$		& $\to$	& $B1q_200$		& $\to$	& $Bq_3110$		&$\to$	\\
+$q_3B110$	& $\to$	& $Bq_0110$		& $\to$	& $BBq_510$		& $\to$	& $BBBq_50$		&$\to$	\\
+$BBBBq_5B$	& $\to$	& $BBBBBq_6$	&		&				&		& 				&		\\
+
+    
+\end{tabular}
+
+
+\subsection{Importance}
+
+Despite their simplicity, Turing machines are able to model the capability of a computer. Which means given any computer algorithm, theoretically there exists a Turing Machine that can be constructed to model it. For a machine that only has two components, this is a very powerful tool. But it is not just computers that can be modeled with a Turing Machine. Turing Machines gave computer scientists a way to categorically associate programming languages based off their capabilities. A programming language is considered \textit{Turing-complete} if a language can replicate all properties to simulate a Turing machine, sans the unlimited memory (the tape reel). For example, languages like Python or Java can be considered Turing-complete, however languages like SQL and HTML are not.
+
+While the Turing machine gives mathematicians and computer scientists a way to model computers and programs, Turing originally designed this machine to assist him to prove, or better yet disprove, a famous problem in decision theory.
+
+
+\section{The Halting Problem}
+
+\subsection{To Halt, or Not to Halt?}
+
+\subsection{The Counter-Proof}
+
+\subsection{Entscheidungsproblem}
+
+In Turing's paper on computability he references how his automatic machines can be helpful in Entscheidungsproblem. Entscheidungsproblem, German for "decision problem", is a problem posed by David Hilbert in 1928. The problem states if given a set of  axioms and mathematical propositions, is there an effective algorithm to prove whether something is or is not provable from the axioms? This is a direct correlation to the logic that we have in the Halting Problem. Using a similar logic to how the Halting Problem was proven undecidable, Turing also proved Entscheidungsproblem cannot have a solution either.
+
+Over time, we discovered more problems that can be \textit{reduced} down to the Halting Problem, meaning that solving problem $A$ is just as hard as solving the Halting Problem. Take for instance Goldbach's Conjecture, which states all even integers greater than 2 can be represented as a sum of two prime numbers. The most straightforward way to prove this is to devise an algorithm that runs every even number and finds two pairs of primes that sum to the value, and it will only stop once it finds a suitable even number that will not work. But due to the undecidability of the problem, we will not know when the algorithm will stop or if it ever will. Similarly, the same argument can be framed for a method to solving the Collatz Conjecture. 
+
+It is not just in mathematics we see the Halting Problem exercised, we see this in many forms in our day to day lives. Decrypting RSAs is one of them. If there is a computational way to crack RSA encryptions, services like phones, bank accounts and all internet accounts would be in danger. Because of RSA complexity, cracking these encryptions would be pose to be a Halting Problem. In addition, the Halting Problem can be related to cyber security. Let's say there was an anti-virus solution out on the market, will there ever come a time when the software actually executes malicious programs?
+
+The Halting Problem does not necessarily show that some these problems are impossible, but other practices and methodologies must be used to lead us closer to a solution.
+
+\section{Church-Turing Thesis}
+
+
+\section{Important Discoveries}
+
+
+\section{Conclusion}
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
