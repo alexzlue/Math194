@@ -2,7 +2,7 @@
 
 
 ## Research Topic:
-## Turing Machines & the Halting Problem
+Turing Machines & the Halting Problem
 
 This repository contains the tex file and pdf for my research paper regarding Turing Machines & the Halting Problem.
 
