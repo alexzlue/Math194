@@ -1,8 +1,8 @@
-Math 194 - Senior Seminar
+#Math 194 - Senior Seminar
 
 
-Research Topic:
-Turing Machines & the Halting Problem
+##Research Topic:
+##Turing Machines & the Halting Problem
 
 This repository contains the tex file and pdf for my research paper regarding Turing Machines & the Halting Problem.
 
