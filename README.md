@@ -11,5 +11,5 @@ It is broken into sections:
 2. Computational Models & Automata Theory
 3. Turing Machines
 4. Undecidability
-5. Important Discoveries
-6. Conclusion
+5. Conclusion
+6. References

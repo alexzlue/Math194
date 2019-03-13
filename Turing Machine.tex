@@ -1,6 +1,14 @@
 \documentclass[12pt]{article}
 \usepackage{fullpage,amsthm,amsfonts,amssymb,epsfig,amsmath,times,amsthm}
 
+\makeatletter
+\newcommand{\dotminus}{\mathbin{\text{\@dotminus}}}
+
+\newcommand{\@dotminus}{%
+  \ooalign{\hidewidth\raise1ex\hbox{.}\hidewidth\cr$\m@th-$\cr}%
+}
+\makeatother
+
 \title{Turing Machines and the Halting Problem}
 
 \author{Alexander Lue, UCSC}
@@ -95,6 +103,7 @@ $q_4$	& -				& -				& -				& -				& -			\\
 
 And so, we can see that when the machine is run on the input $0011$ we reach the final state $q_4$:
 
+\begin{center}
 \begin{tabular}{l l l l l l l l}
 
 $q_00011$	& $\to$	& $Xq_1011$		&$\to$	& $X0q_111$		& $\to$	& $Xq_20Y1$		&$\to$	\\
@@ -104,6 +113,7 @@ $XXYYq_3B$	& $\to$	& $XXYYBq_4$	&		&				&		&				&		\\
 
     
 \end{tabular}
+\end{center}
 
 \noindent Notice that no matter what other input we put into the machine that is not in the language (i.e. $1001$, $11111$, or $00$), $\delta$ is not defined to transition to a state. Therefore, when these inputs are put into the machine, it will terminate execution without accepting the word into the language.
 
@@ -111,9 +121,11 @@ $XXYYq_3B$	& $\to$	& $XXYYBq_4$	&		&				&		&				&		\\
 
 We can also use Turing Machines to conduct computations. Let's consider a simple type of computation, \textit{proper subtraction} \footnote{Turing Machines can theoretically work with normal subtraction as well, but for simplicity's sake, we want to use highlight this computation because it requires less state management.}. Proper subtraction between two non-negative integers $m$ and $n$ is the function:
 
-\[ \begin{cases} 
-      m-n & m\geq n \\
-      0 & m<n
+\[
+m \dotminus n =  
+\begin{cases} 
+      m-n & \text{if $m\geq n$} \\
+      0 & \text{if $m<n$}
    \end{cases}
 \]
 
@@ -146,8 +158,9 @@ $q_6$	& -				& -				& -			\\
 \end{tabular}
 \end{center}
 
-Let's now work with two examples, $0010$ and $0100$. For $0010$, the $M$ will function in this order: \\
+Let's now work with two examples, $0010$ and $0100$. For $0010$, the $M$ will function in this order:
 
+\begin{center}
 \begin{tabular}{l l l l l l l l}
 
 $q_00010$	& $\to$	& $Bq_1010$		& $\to$	& $B0q_110$		& $\to$	& $B01q_20$		&$\to$	\\
@@ -155,26 +168,29 @@ $B0q_311$	& $\to$	& $Bq_3011$		& $\to$	& $q_3B011$		& $\to$	& $Bq_0011$		&$\to$	
 $BBq_111$	& $\to$	& $BB1q_21$		& $\to$	& $BB11q_2$		& $\to$	& $BB1q_41$		&$\to$	\\
 $BBq_41$		& $\to$	& $Bq_4B$		& $\to$	& $B0q_6B$		& $\to$	& $B0q_6$		&		\\
 
-    
 \end{tabular}
+\end{center}
 
 \noindent After the process is finished, only one $0$ remains, which means the \textit{proper difference} of $2$ and $1$ is $1$. What if we now run this on $0100$?
 
+\begin{center}
 \begin{tabular}{l l l l l l l l}
 
 $q_00100$	& $\to$	& $Bq_100$		& $\to$	& $B1q_200$		& $\to$	& $Bq_3110$		&$\to$	\\
 $q_3B110$	& $\to$	& $Bq_0110$		& $\to$	& $BBq_510$		& $\to$	& $BBBq_50$		&$\to$	\\
 $BBBBq_5B$	& $\to$	& $BBBBBq_6$	&		&				&		& 				&		\\
 
-    
 \end{tabular}
+\end{center}
 
 \noindent We now see that when the Turing Machine halts, it produces a tape with only blank spaces left. This falls in line with what we expect. Because we fed into the machine an $n$ value larger than $m$, we should get zero back, or no $0$s on the tape leftover.
 
 
 \subsection{Importance}
 
-Despite their simplicity, Turing machines are able to model the capability of a computer. Which means given any computer algorithm, theoretically there exists a Turing Machine that can be constructed to model it. For a machine that only has two components, this is a very powerful tool. But it is not just computers that can be modeled with a Turing Machine. Turing Machines gave computer scientists a way to categorically associate programming languages based off their capabilities. A programming language is considered \textit{Turing-complete} if a language can replicate all properties to simulate a Turing machine, sans the unlimited memory (the tape reel). For example, languages like Python or Java can be considered Turing-complete, however languages like SQL and HTML are not.
+Despite their simplicity, Turing machines are able to model the capability of a computer. Which means given any computer algorithm, theoretically there exists a Turing Machine that can be constructed to model it. For a machine that only has two components, this is a very powerful tool. We know this as the \textit{Church-Turing Thesis}, such that any real-world computation can be modeled or translated into an equivalent computation using a Turing machine.
+
+It is not just computers that can be modeled with a Turing Machine. Turing Machines gave computer scientists a way to categorically associate programming languages based off their capabilities. A programming language is considered \textit{Turing-complete} if a language can replicate all properties to simulate a Turing machine, sans the unlimited memory (the tape reel). For example, languages like Python or Java can be considered Turing-complete, however languages like SQL and HTML are not.
 
 While the Turing machine gives mathematicians and computer scientists a way to model computers and programs, Turing originally designed this machine to assist him to prove, or better yet disprove, a famous problem in complexity theory.
 
@@ -196,26 +212,70 @@ In reference to Hilbert's question, we can rephrase the problem in a similar way
 \noindent We know that there is no machine that can make this statement possible, but how did Turing prove this?
 
 \begin{proof}
-Let's assume there is a Turing machine, $M$, that gives solutions to the Halting Problem. We can define this as
-\newline
+Let's assume there is a Turing machine, $M$, that gives solutions to the Halting Problem. For program $p$ and input $i$, we can say that $M$ works as such:
+
+\[
+M(p,i) =  
+\begin{cases} 
+      1 & \text{if $p$ \textit{halts} on $i$} \\
+      0 & \text{if $p$ \textit{runs forever} on $i$}
+   \end{cases}
+\]
+
+\noindent Because a program is just a sequence of instructions, we can also use that as an input into a Turing Machine as well. So now let's define a new machine, $M'$ that takes in a program, and uses $M$. we can define $M'$ like so:
+
+\[
+M'(p) =  
+\begin{cases} 
+      \textit{halts} & \text{if $M(p,p) = 0$ } \\
+      \textit{runs forever} & \text{if $M(p,p) = 1$}
+   \end{cases}
+\]
+
+\noindent What happens now if we use $M'$ as an input? And more specifically, what happens if we use $M'$ as an input into itself? Let's consider the two scenarios that may occur.
+
+\begin{enumerate}
+
+\item \textbf{$\boldsymbol{M'(M')}$ \textit{halts.}} If this is the case, then $M(M',M')=0$. This means, by definition of $M$, $M'$ \textit{runs forever} on $M'$.
+\item \textbf{$\boldsymbol{M'(M')}$ \textit{runs forever.}} If this is the case, then $M(M',M')=1$. This means, by definition of $M$, $M'$ \textit{halts} on $M'$.
+
+\end{enumerate}
+
+In both scenarios, no matter what state we assume $M'(M')$ is in, the opposite also occurs, creating a paradox. Something can not be both terminated and running at the same time.  Therefore, this is a contradiction to the assumption and there can not exist such a machine $M$ that can solve the halting problem for all programs and inputs.
 \end{proof}
 
-\subsection{\textit{Entscheidungsproblem} Revisited}
-This is a direct correlation to the logic that we have in the Halting Problem. Using a similar logic to how the Halting Problem was proven undecidable, Turing also proved \textit{Entscheidungsproblem} cannot have a solution either.
+\subsection{\textit{Entscheidungsproblem} and Other Undecidable Problems}
+
+The Halting Problem shows us the essence of undecidable problems, for which it is impossible to determine yes or no answers to the problem. Using the Halting problem as a basis, Turing also proved that \textit{Entscheidungsproblem} is impossible and cannot have a solution either.
 
 Over time, we discovered more problems that can be \textit{reduced} down to the Halting Problem, meaning that solving problem $A$ is just as hard as solving the Halting Problem. Take for instance Goldbach's Conjecture, which states all even integers greater than 2 can be represented as a sum of two prime numbers. The most straightforward way to prove this is to devise an algorithm that runs every even number and finds two pairs of primes that sum to the value, and it will only stop once it finds a suitable even number that will not work. But due to the undecidability of the problem, we will not know when the algorithm will stop or if it ever will. Similarly, the same argument can be framed for a method to solving the Collatz Conjecture. 
 
-It is not just in mathematics we see the Halting Problem exercised, we see this in many forms in our day to day lives. Decrypting RSAs is one of them. If there is a computational way to crack RSA encryptions, services like phones, bank accounts and all internet accounts would be in danger. Because of RSA complexity, cracking these encryptions would be pose to be a Halting Problem. In addition, the Halting Problem can be related to cyber security. Let's say there was an anti-virus solution out on the market, will there ever come a time when the software actually executes malicious programs?
+We also see the Halting Problem in many forms of our day to day lives. Decrypting RSAs is one of them. If there is a computational way to crack RSA encryptions, services like phones, bank accounts and all internet accounts would be in danger. Because of RSA complexity, cracking these encryptions would be pose to be a Halting Problem. In addition, the Halting Problem can be related to fields like cyber security. Let's say there was an anti-virus solution out on the market, will there ever come a time when the software actually executes malicious programs? 
 
-The Halting Problem does not necessarily show that some these problems are impossible, but other practices and methodologies must be used to lead us closer to a solution.
+\section{Moving Forward}
 
-\section{Church-Turing Thesis}
+Turing Machines and the Halting Problem open up more problems in the realm of complexity theory. One of the Millennium Prize Problems is the $\text{\textit{P} vs. \textit{NP}}$ problem, a major unsolved computer science complexity problem. The problem states if it is easy to check if a problem is correct (NP), can you also easily find a solution to the problem (P). This idea can be written as $\textit{P}\stackrel{\text{\tiny ?}}{=}\textit{NP}$.
 
+How does this relate to the Halting Problem? When we take a closer look, P and NP problems are all decidable, when the Halting Problem is not. The Halting Problem is \textit{NP-hard}, which means solving this problem is as hard as an NP problem. This means that all the problems that we encountered previously have also been classified as NP-hard. The difference in these categorizations help us understand the scope of a certain solution. While the Halting Problem is impossible, for different problem, if it is reducible down to the Halting problem, we can spend time searching for other practices and methodologies must be used to lead us closer to a solution.
 
-\section{Important Discoveries}
-
+Furthermore, In Stephen Cooks paper on $\text{\textit{P} vs. \textit{NP}}$, Turing's discovery of his machines laid the foundations to computable functions, which are used for the computability of problems. Turing Machines was the abstract basis to modern day computers and computer science, and hence the $\text{\textit{P} vs. \textit{NP}}$ spawned from learning about the complexity and computability of these machines.
 
 \section{Conclusion}
+
+While relatively simple with easy to understand mechanics, the Turing Machine is an extremely powerful model. It can model any modern day computer and any computable algorithm that can be created. Alan Turing was truly a spearhead in modern computer science as he laid the foundation for many fields in computer science. And while he did prove the Halting Problem to be impossible, this led to more discoveries and undecidable questions in computer science.
+
+
+\section*{References}
+\begin{enumerate}
+\item Cook, Stephen. "The P vs. NP Problem." From 
+\item "The Halting Problem $\mid$ P vs. NP." From Kalamazoo University, CS 105.
+\item Stovicek, Jan. "Axioms, algorithms, and Hilbert's Entscheidungsproblem." From NTNU, Norwegian University of Science and Technology.
+\item Rowland, Todd. "Church-Turing Thesis." From MathWorld--A Wolfram Web Resource, created by Eric W. Weisstein.
+\item Turing, Alan. "On Computable Numbers with an Application to the Entscheidnungsproblem", Proc. London Math.
+\item Weisstein, Eric W. "NP-Hard Problem." From MathWorld--A Wolfram Web Resource.
+\item Weisstein, Eric W. "Computable Function." From MathWorld--A Wolfram Web Resource.
+
+\end{enumerate}
 
 
 
