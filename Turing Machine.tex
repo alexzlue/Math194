@@ -146,7 +146,7 @@ $q_6$	& -				& -				& -			\\
 \end{tabular}
 \end{center}
 
-Let's now work with two examples, $0010$ and $0100$. For $0010$, the $M$ will function in this order:
+Let's now work with two examples, $0010$ and $0100$. For $0010$, the $M$ will function in this order: \\
 
 \begin{tabular}{l l l l l l l l}
 
@@ -158,7 +158,7 @@ $BBq_41$		& $\to$	& $Bq_4B$		& $\to$	& $B0q_6B$		& $\to$	& $B0q_6$		&		\\
     
 \end{tabular}
 
-After the process is finished, only one $0$ remains, which means the \textit{proper difference} of $2$ and $1$ is $1$. What if we now run this on $0100$?
+\noindent After the process is finished, only one $0$ remains, which means the \textit{proper difference} of $2$ and $1$ is $1$. What if we now run this on $0100$?
 
 \begin{tabular}{l l l l l l l l}
 
@@ -169,23 +169,39 @@ $BBBBq_5B$	& $\to$	& $BBBBBq_6$	&		&				&		& 				&		\\
     
 \end{tabular}
 
+\noindent We now see that when the Turing Machine halts, it produces a tape with only blank spaces left. This falls in line with what we expect. Because we fed into the machine an $n$ value larger than $m$, we should get zero back, or no $0$s on the tape leftover.
+
 
 \subsection{Importance}
 
 Despite their simplicity, Turing machines are able to model the capability of a computer. Which means given any computer algorithm, theoretically there exists a Turing Machine that can be constructed to model it. For a machine that only has two components, this is a very powerful tool. But it is not just computers that can be modeled with a Turing Machine. Turing Machines gave computer scientists a way to categorically associate programming languages based off their capabilities. A programming language is considered \textit{Turing-complete} if a language can replicate all properties to simulate a Turing machine, sans the unlimited memory (the tape reel). For example, languages like Python or Java can be considered Turing-complete, however languages like SQL and HTML are not.
 
-While the Turing machine gives mathematicians and computer scientists a way to model computers and programs, Turing originally designed this machine to assist him to prove, or better yet disprove, a famous problem in decision theory.
+While the Turing machine gives mathematicians and computer scientists a way to model computers and programs, Turing originally designed this machine to assist him to prove, or better yet disprove, a famous problem in complexity theory.
 
 
-\section{The Halting Problem}
+\section{Undecidability}
 
-\subsection{To Halt, or Not to Halt?}
+\subsection{\textit{Entscheidungsproblem}}
 
-\subsection{The Counter-Proof}
+Decision problems are integral in computability theory and complexity theory and rely on the ability to pose questions as yes-no problem. One of the most popular decision problems is \textit{Entscheidungsproblem}. \textit{Entscheidungsproblem}, German for "decision problem", is a problem posed by renowned mathematician David Hilbert in 1928. The problem states if one is given a set of axioms and mathematical propositions, is there an effective algorithm to prove whether any statement is or is not provable from the axioms? That is, as referenced from one of Hilbert's problems posed in his 1900 paper, \textit{Mathematische Probleme}, are all problems in mathematics decidable?
 
-\subsection{Entscheidungsproblem}
+ Hilbert's \textit{Entscheidungsproblem} was long unanswered until mathematicians like Alan Turing and Alonzo Church solved and proved it to be impossible. In Turing's 1936 paper, he addresses the proof of this problem with the use of his newly defined computing machines. This problem using Turing machines became famously known as \textit{The Halting Problem}.
 
-In Turing's paper on computability he references how his automatic machines can be helpful in Entscheidungsproblem. Entscheidungsproblem, German for "decision problem", is a problem posed by David Hilbert in 1928. The problem states if given a set of  axioms and mathematical propositions, is there an effective algorithm to prove whether something is or is not provable from the axioms? This is a direct correlation to the logic that we have in the Halting Problem. Using a similar logic to how the Halting Problem was proven undecidable, Turing also proved Entscheidungsproblem cannot have a solution either.
+\subsection{The Halting Problem}
+
+In reference to Hilbert's question, we can rephrase the problem in a similar way: Given an arbitrary program and input for the program, can we determine if there is an output? As we discussed earlier, we can model any computing algorithm as a Turing machine. By the nature of these machines, if a Turing machine runs on an input, there are two different outcomes that may occur: either the machine halts and produces an output, or the machine continues to run forever. With the given clarifications, we can now reformulate the question as the Halting Problem.\newline
+
+\noindent \textbf{The Halting Problem.} \textit{Is there a Turing machine that can determine if any Turing machine will eventually halt based off an input fed into the machine?}\newline
+
+\noindent We know that there is no machine that can make this statement possible, but how did Turing prove this?
+
+\begin{proof}
+Let's assume there is a Turing machine, $M$, that gives solutions to the Halting Problem. We can define this as
+\newline
+\end{proof}
+
+\subsection{\textit{Entscheidungsproblem} Revisited}
+This is a direct correlation to the logic that we have in the Halting Problem. Using a similar logic to how the Halting Problem was proven undecidable, Turing also proved \textit{Entscheidungsproblem} cannot have a solution either.
 
 Over time, we discovered more problems that can be \textit{reduced} down to the Halting Problem, meaning that solving problem $A$ is just as hard as solving the Halting Problem. Take for instance Goldbach's Conjecture, which states all even integers greater than 2 can be represented as a sum of two prime numbers. The most straightforward way to prove this is to devise an algorithm that runs every even number and finds two pairs of primes that sum to the value, and it will only stop once it finds a suitable even number that will not work. But due to the undecidability of the problem, we will not know when the algorithm will stop or if it ever will. Similarly, the same argument can be framed for a method to solving the Collatz Conjecture. 
 
