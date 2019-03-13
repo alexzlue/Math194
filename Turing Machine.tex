@@ -26,7 +26,7 @@
 
 \section{Introduction}
 
-The way we perceive computers is vastly different from what we had perceived almost 70 years ago. From the US made Electronic Numerical Integrator and Calculator (ENIC), to the modern-day laptop, the fundamental logic that computers run on is largely preserved. But how exactly could we compare these two, and why would these machines be related? Is there a way to interpret the computability of these technologies in a definitive way? Surprisingly, there is, and it was developed by mathematician and computer scientist Alan Turing in 1936 in his paper \textit{On Computable Numbers, with an Application to the Entscheidungsproblem}. In this paper, Turing devises an abstract "computing machine" that we now refer to as a Turing Machine.
+The way we perceive computers is vastly different from what we had perceived almost 70 years ago. From the US made Electronic Numerical Integrator and Calculator (ENIAC), to the modern-day laptop, the fundamental logic that computers run on is largely preserved [2]. But how exactly could we compare these two, and why would these machines be related? Is there a way to interpret the computability of these technologies in a definitive way? Surprisingly, there is, and it was developed by mathematician and computer scientist Alan Turing in 1936 in his paper \textit{On Computable Numbers, with an Application to the Entscheidungsproblem} [8]. In this paper, Turing devises an abstract "computing machine" that we now refer to as a Turing Machine.
 
 While simplistic and straightforward, the Turing machine has proved to be one of the most important machines devised in early computer science. These abstract machines give means to describe computability of various problems posed before and after its inception that relate to mathematics and computer science in our everyday lives.
 
@@ -36,7 +36,7 @@ While simplistic and straightforward, the Turing machine has proved to be one of
 
 Before we dive head first into Turing machines, we need to explain what computational models are. Computational Models are, at its core, models that describe how a set of outputs can be produced from given inputs with defined rules and function. 
 
-There are multiple classes of computational models, and all of which are encompassed in automata theory, the study of such machines. Specifically, automata theory delves into the computational logic that defines abstract machines. There are three main classes of models: finite state machines, pushdown automata, and Turing machines, where each is a subclass of the succeeding class. 
+There are multiple classes of computational models, and all of which are encompassed in automata theory, the study of such machines. Specifically, automata theory delves into the computational logic that defines abstract machines. There are three main classes of models: finite state machines, pushdown automata, and Turing machines, where each is a subclass of the succeeding class [4].
 
 But what does it mean when one automata is a subclass of the other? Let's consider finite state machines and pushdown automata. Any finite state machine can also be defined with a pushdown automata. This also means that any grammar, and by extension the language it produces, that can be constructed from a finite state machine, can also be defined with a pushdown automata. For example, finite state machines can only represent regular grammars, whereas pushdown automata can represent any context-free grammar, a superset of regular grammar. 
 
@@ -59,7 +59,7 @@ As stated previously, Turing machines were developed by Alan Turing in 1936. The
 
 \end{enumerate}
 
-\noindent With this functionality in mind, we can formally define a Turing machine, $M$, as a $7-$tuple $M=(Q,\Sigma, \Gamma, \delta, q_0, B, F)$, where
+\noindent With this functionality in mind, we can formally define a Turing machine [4], $M$, as a $7-$tuple $M=(Q,\Sigma, \Gamma, \delta, q_0, B, F)$, where
 
 
 \begin{itemize}
@@ -78,7 +78,7 @@ We can relate the movement of the Turing Machine described in the procedure abov
 
 \subsection{Examples of Turing Machines}
 
-Let's now go over a couple ways we can use Turing Machines to compute or determine outputs for a program. These simple examples should be able to describe the general use and functionality of these machines.
+Let's now go over a couple ways we can use Turing Machines to compute or determine outputs for a program. These simple examples\footnote{All Turing Machine problems have been derived from Reference [4].} should be able to describe the general use and functionality of these machines.
 \subsubsection*{Language Acceptance}
 
 Say we want to design a Turing Machine that can accept words in the language $L = \{0^n1^n \mid n \geq 1 \}$. We can create a Turing Machine that takes in a tape with the target word followed by blank spaces. The machine will first change the $0$ into a $X$. The machine will then move to the right and change the first $1$ it scans to a $Y$. The machine then moves left until it reaches the right of the $X$, and repeats the movement until the machine reads a blank space at the end and accepts the word. If there are more $0$s than $1$s, then when the machine scans for another $1$, it will reach a blank space first and not accept. Conversely, if there are more $1$s than $0$s, the last $0$ will be read and will find another $1$ before finding a blank, and such, will not accept the word.
@@ -188,7 +188,7 @@ $BBBBq_5B$	& $\to$	& $BBBBBq_6$	&		&				&		& 				&		\\
 
 \subsection{Importance}
 
-Despite their simplicity, Turing machines are able to model the capability of a computer. Which means given any computer algorithm, theoretically there exists a Turing Machine that can be constructed to model it. For a machine that only has two components, this is a very powerful tool. We know this as the \textit{Church-Turing Thesis}, such that any real-world computation can be modeled or translated into an equivalent computation using a Turing machine.
+Despite their simplicity, Turing machines are able to model the capability of a computer. Which means given any computer algorithm, theoretically there exists a Turing Machine that can be constructed to model it. For a machine that only has two components, this is a very powerful tool. We know this as the \textit{Church-Turing Thesis}, such that any real-world computation can be modeled or translated into an equivalent computation using a Turing machine [6].
 
 It is not just computers that can be modeled with a Turing Machine. Turing Machines gave computer scientists a way to categorically associate programming languages based off their capabilities. A programming language is considered \textit{Turing-complete} if a language can replicate all properties to simulate a Turing machine, sans the unlimited memory (the tape reel). For example, languages like Python or Java can be considered Turing-complete, however languages like SQL and HTML are not.
 
@@ -199,7 +199,7 @@ While the Turing machine gives mathematicians and computer scientists a way to m
 
 \subsection{\textit{Entscheidungsproblem}}
 
-Decision problems are integral in computability theory and complexity theory and rely on the ability to pose questions as yes-no problem. One of the most popular decision problems is \textit{Entscheidungsproblem}. \textit{Entscheidungsproblem}, German for "decision problem", is a problem posed by renowned mathematician David Hilbert in 1928. The problem states if one is given a set of axioms and mathematical propositions, is there an effective algorithm to prove whether any statement is or is not provable from the axioms? That is, as referenced from one of Hilbert's problems posed in his 1900 paper, \textit{Mathematische Probleme}, are all problems in mathematics decidable?
+Decision problems are integral in computability theory and complexity theory and rely on the ability to pose questions as yes-no problem. One of the most popular decision problems is \textit{Entscheidungsproblem}. \textit{Entscheidungsproblem}, German for "decision problem", is a problem posed by renowned mathematician David Hilbert in 1928. The problem states if one is given a set of axioms and mathematical propositions, is there an effective algorithm to prove whether any statement is or is not provable from the axioms [7]? That is, as referenced from one of Hilbert's problems posed in his 1900 paper, \textit{Mathematische Probleme}, are all problems in mathematics decidable?
 
  Hilbert's \textit{Entscheidungsproblem} was long unanswered until mathematicians like Alan Turing and Alonzo Church solved and proved it to be impossible. In Turing's 1936 paper, he addresses the proof of this problem with the use of his newly defined computing machines. This problem using Turing machines became famously known as \textit{The Halting Problem}.
 
@@ -209,7 +209,7 @@ In reference to Hilbert's question, we can rephrase the problem in a similar way
 
 \noindent \textbf{The Halting Problem.} \textit{Is there a Turing machine that can determine if any Turing machine will eventually halt based off an input fed into the machine?}\newline
 
-\noindent We know that there is no machine that can make this statement possible, but how did Turing prove this?
+\noindent We know that there is no machine that can make this statement possible, but how did Turing prove this\footnote{Proof of the Halting Problem is adapted from Reference [5].}?
 
 \begin{proof}
 Let's assume there is a Turing machine, $M$, that gives solutions to the Halting Problem. For program $p$ and input $i$, we can say that $M$ works as such:
@@ -254,11 +254,11 @@ We also see the Halting Problem in many forms of our day to day lives. Decryptin
 
 \section{Moving Forward}
 
-Turing Machines and the Halting Problem open up more problems in the realm of complexity theory. One of the Millennium Prize Problems is the $\text{\textit{P} vs. \textit{NP}}$ problem, a major unsolved computer science complexity problem. The problem states if it is easy to check if a problem is correct (NP), can you also easily find a solution to the problem (P). This idea can be written as $\textit{P}\stackrel{\text{\tiny ?}}{=}\textit{NP}$.
+Turing Machines and the Halting Problem open up more problems in the realm of complexity theory. One of the Millennium Prize Problems is the $\text{\textit{P} vs. \textit{NP}}$ problem, a major unsolved computer science complexity problem. The problem states if it is easy to check if a problem is correct (NP), can you also easily find a solution to the problem (P) [1]. This idea can be written as $\textit{P}\stackrel{\text{\tiny ?}}{=}\textit{NP}$ [3].
 
-How does this relate to the Halting Problem? When we take a closer look, P and NP problems are all decidable, when the Halting Problem is not. The Halting Problem is \textit{NP-hard}, which means solving this problem is as hard as an NP problem. This means that all the problems that we encountered previously have also been classified as NP-hard. The difference in these categorizations help us understand the scope of a certain solution. While the Halting Problem is impossible, for different problem, if it is reducible down to the Halting problem, we can spend time searching for other practices and methodologies must be used to lead us closer to a solution.
+How does this relate to the Halting Problem? When we take a closer look, P and NP problems are all decidable, when the Halting Problem is not. The Halting Problem is \textit{NP-hard}, which means solving this problem is as hard as an NP problem. This means that all the problems that we encountered previously have also been classified as NP-hard [9]. The difference in these categorizations help us understand the scope of a certain solution. While the Halting Problem is impossible, for different problem, if it is reducible down to the Halting problem, we can spend time searching for other practices and methodologies must be used to lead us closer to a solution.
 
-Furthermore, In Stephen Cooks paper on $\text{\textit{P} vs. \textit{NP}}$, Turing's discovery of his machines laid the foundations to computable functions, which are used for the computability of problems. Turing Machines was the abstract basis to modern day computers and computer science, and hence the $\text{\textit{P} vs. \textit{NP}}$ spawned from learning about the complexity and computability of these machines.
+Furthermore, In Stephen Cooks paper on $\text{\textit{P} vs. \textit{NP}}$, Turing's discovery of his machines laid the foundations to computable functions, which are used for the computability of problems [1, 10]. Turing Machines was the abstract basis to modern day computers and computer science, and hence the $\text{\textit{P} vs. \textit{NP}}$ spawned from learning about the complexity and computability of these machines.
 
 \section{Conclusion}
 
@@ -268,12 +268,16 @@ While relatively simple with easy to understand mechanics, the Turing Machine is
 \section*{References}
 \begin{enumerate}
 \item Cook, Stephen. "The P vs. NP Problem." From 
+\item Encylcopedia Britannica. "ENIAC." Encyclopedia Entry.
 \item "The Halting Problem $\mid$ P vs. NP." From Kalamazoo University, CS 105.
-\item Stovicek, Jan. "Axioms, algorithms, and Hilbert's Entscheidungsproblem." From NTNU, Norwegian University of Science and Technology.
+\item Hopcroft, John E. "Introduction to Automata Theory, Languages, and Computation." Print. Cornell University.
+\item Kaplan, Craig S. "The Halting Problem." From The University of Waterloo.
 \item Rowland, Todd. "Church-Turing Thesis." From MathWorld--A Wolfram Web Resource, created by Eric W. Weisstein.
+\item Stovicek, Jan. "Axioms, algorithms, and Hilbert's Entscheidungsproblem." From NTNU, Norwegian University of Science and Technology.
 \item Turing, Alan. "On Computable Numbers with an Application to the Entscheidnungsproblem", Proc. London Math.
 \item Weisstein, Eric W. "NP-Hard Problem." From MathWorld--A Wolfram Web Resource.
 \item Weisstein, Eric W. "Computable Function." From MathWorld--A Wolfram Web Resource.
+
 
 \end{enumerate}
 
